@@ -14,7 +14,9 @@ jobs:
          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Change Directory
+        run: cd /app
       - name: Test
-        run: docker-compose run --rm app sh -c "python app/manage.py wait_for_db && python app/manage.py test"
+        run: docker-compose run --rm app sh -c "python manage.py wait_for_db && python manage.py test"
       - name: Lint
         run: docker-compose run --rm app sh -c "flake8"
