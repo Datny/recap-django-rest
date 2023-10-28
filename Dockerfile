@@ -22,5 +22,7 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
     if [ $DEV = "true" ]; \
       then pip3 install -r /tmp/requirements.dev.txt ; \
     fi
+RUN apt update -y && \
+    apt install -y postgresql postgresql-contrib
 WORKDIR $HOME
 USER django-user
