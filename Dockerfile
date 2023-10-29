@@ -24,5 +24,4 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
     fi
 RUN apt update -y && \
     apt install -y postgresql postgresql-contrib
-WORKDIR $HOME
 USER django-user
