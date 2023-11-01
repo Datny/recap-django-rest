@@ -2,3 +2,4 @@ Django==4.1
 djangorestframework>=3.14<3.15
 psycopg2-binary
 python-dotenv
+drf-spectacular
