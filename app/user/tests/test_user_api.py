@@ -60,7 +60,7 @@ class PublicUserApiTests(TestCase):
         user_details = {'name': 'TestName',
                         'email': 'testemail@example.com',
                         'password': 'test-user-password123'}
-        create_user(user_details)
+        create_user(**user_details)
         payload = {k: v for k, v in user_details.items() if k != "name"}
         res = self.client.post(TOKEN_URL, payload)
 
