@@ -37,7 +37,7 @@ class PrivateIngredientsApiTest(TestCase):
 
     def setUp(self):
         self.user = create_user()
-        self.client = APIClient
+        self.client = APIClient()
         self.client.force_authenticate(self.user)
 
     def test_retrieve_ingredients(self):
@@ -47,7 +47,9 @@ class PrivateIngredientsApiTest(TestCase):
 
         res = self.client.get(INGREDIENTS_URL)
 
-        serializer = IngredientSerializer(Ingredient.objects.all(), many=True)
+        serializer = IngredientSerializer(Ingredient.
+                                          objects.all().
+                                          order_by('-name'), many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
