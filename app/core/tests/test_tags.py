@@ -13,6 +13,11 @@ from rest_framework.test import APIClient
 TAGS_URS = reverse('recipe:tag-list')
 
 
+def detail_url(tag_id):
+    """Create and return a tag detail url"""
+    return reverse("recipe:tag-detail", args=[tag_id])
+
+
 def create_user(email='user@example.com', password='testpass123'):
     """Create and return new user"""
     return get_user_model().objects.create_user(email=email, password=password)
@@ -66,3 +71,28 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], tag.name)
         self.assertEqual(res.data[0]['id'], tag.id)
+
+    def test_tags_update(self):
+        """Test updating a tag"""
+        tag = Tag.objects.create(user=self.user, name="After Dinner")
+
+        payload = {"name": "Before Dinner"}
+        url = detail_url(tag_id=tag.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        tag.refresh_from_db()
+        self.assertEqual(payload['name'], tag.name)
+
+    def test_tags_delete(self):
+        """Test deleting tag"""
+
+        tag = Tag.objects.create(user=self.user, name="SomeTag")
+
+        url = detail_url(tag.id)
+        res = self.client.delete(url)
+
+        tags = Tag.objects.filter(user=self.user)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(tags), 0)
