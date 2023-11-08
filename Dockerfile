@@ -15,7 +15,11 @@ ARG DEV=false
 RUN adduser \
         --disabled-password \
         --no-create-home \
-        django-user
+        django-user && \
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    chown -R django-user:django-user /vol && \
+    chmod -R 755 /vol
 
 RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install -r /tmp/requirements.txt && \
@@ -24,4 +28,6 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
     fi
 RUN apt update -y && \
     apt install -y postgresql postgresql-contrib
+RUN apt-get -y install python3-dev python3-setuptools
+
 USER django-user
