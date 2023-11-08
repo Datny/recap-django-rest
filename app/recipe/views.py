@@ -1,9 +1,8 @@
+from core.models import Ingredient, Recipe, Tag
+from recipe import serializers
 from rest_framework import mixins, viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-
-from core.models import Ingredient, Recipe, Tag
-from recipe import serializers
 
 
 class BaseRecipeAttrViewSet(
